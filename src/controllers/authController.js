@@ -1,20 +1,22 @@
 import bcrypt from "bcrypt";
 import db from "../db.js";
-import { v4 as uuid } from "uuid";
+import jwt from "jsonwebtoken";
 
 export async function postLogin(req, res) {
   const { email, password } = req.body;
 
   try {
-    console.log(email);
     const user = await db.collection("users").findOne({ email });
-    console.log(user);
+
     if (!user) {
       return res.sendStatus(404);
     }
 
     if (bcrypt.compareSync(password, user.password)) {
-      const token = uuid();
+      delete user.password;
+      const secretKey = process.env.JWT_SECRET;
+      const token = jwt.sign(user, secretKey);
+
       const userIsConnect = await db
         .collection("sessions")
         .findOne({ userId: user._id });
