@@ -6,6 +6,7 @@ export default async function tokenValidationMiddleware(req, res, next) {
 
   const token = authorization?.replace("Bearer ", "");
   const keySecret = process.env.JWT_SECRET;
+  console.log(token);
 
   try {
     const dados = jwt.verify(token, keySecret);

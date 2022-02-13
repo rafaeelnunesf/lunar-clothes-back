@@ -25,11 +25,11 @@ export async function postLogin(req, res) {
         await db
           .collection("sessions")
           .updateOne({ userId: user._id }, { $set: { token } });
-        return res.status(200).send({ token, name: user.name });
+        return res.status(200).send(token);
       }
 
       await db.collection("sessions").insertOne({ token, userId: user._id });
-      res.status(200).send({ token, name: user.name });
+      res.status(200).send(token);
     } else {
       res.sendStatus(401);
     }
