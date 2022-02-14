@@ -63,3 +63,21 @@ export async function deleteMyBag(req, res) {
     res.sendStatus(500);
   }
 }
+export async function deleteManyMyBag(req, res) {
+  const { userId } = res.locals;
+  console.log(userId);
+  /*  try {
+    const userBag = await db.collection("mybag").find({ userId }).toArray();
+
+    if (userBag) {
+      // await db.collection("mybag").deleteOne({ _id: new ObjectId(id) });
+      console.log(userBag);
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(201);
+  } */
+}
