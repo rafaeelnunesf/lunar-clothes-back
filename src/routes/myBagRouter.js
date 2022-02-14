@@ -3,6 +3,7 @@ import {
   deleteMyBag,
   getMyBag,
   postMyBag,
+  updateQuantityProduct,
 } from "../controllers/myBagController.js";
 import tokenValidationMiddleware from "../middlewares/tokenValidationMiddleware.js";
 
@@ -12,5 +13,6 @@ myBagRouter.use(tokenValidationMiddleware);
 myBagRouter.post("/mybag", postMyBag);
 myBagRouter.get("/mybag", getMyBag);
 myBagRouter.delete("/mybag/:id", deleteMyBag);
+myBagRouter.put("/mybag/:id", updateQuantityProduct);
 
 export default myBagRouter;
