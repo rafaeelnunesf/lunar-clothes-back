@@ -1,14 +1,19 @@
 import db from "../db.js";
+import jwt from "jsonwebtoken";
+
 export default async function tokenValidationMiddleware(req, res, next) {
   const { authorization } = req.headers;
 
   const token = authorization?.replace("Bearer ", "");
-  if (!token) return res.sendStatus(401);
+  const keySecret = process.env.JWT_SECRET;
 
-  const session = await db.collection("sessions").findOne({ token });
-  if (!session) return res.sendStatus(401);
-
-  res.locals.userId = session.userId;
+  try {
+    jwt.verify(token, keySecret);
+    const session = await db.collection("sessions").findOne({ token });
+    res.locals.userId = session.userId;
+  } catch {
+    return res.sendStatus(401);
+  }
 
   next();
 }
