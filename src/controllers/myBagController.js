@@ -83,6 +83,20 @@ export async function updateQuantityProduct(req, res) {
       await db
         .collection("mybag")
         .updateOne({ _id: new ObjectId(id) }, { $set: qtd });
+    }
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
+}
+
+export async function deleteManyMyBag(req, res) {
+  const { userId } = res.locals;
+  try {
+    const userBag = await db.collection("mybag").find({ userId }).toArray();
+
+    if (userBag.length !== 0) {
+      await db.collection("mybag").deleteMany({ userId });
       res.sendStatus(200);
     } else {
       res.sendStatus(404);
