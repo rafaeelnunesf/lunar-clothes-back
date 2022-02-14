@@ -1,5 +1,8 @@
 import { ObjectId } from "mongodb";
+import sgMail from "@sendgrid/mail";
 import db from "../db.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 export async function postMyBag(req, res) {
   const { userId } = res.locals;
@@ -76,6 +79,27 @@ export async function deleteManyMyBag(req, res) {
     }
   } catch (err) {
     console.log(err);
-    res.sendStatus(201);
+    res.sendStatus(500);
+  }
+}
+
+export async function sendEmail(req, res) {
+  const { userId } = res.locals;
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  try {
+    const user = await db.collection("users").findOne({ _id: userId });
+    const msg = {
+      to: user.email,
+      from: "rafaelnfsq@gmail.com", // Use the email address or domain you verified above
+      subject: "Thank you for your order at lunar clothes!",
+      text: `Hello ${user.name}, thank you for your order on lunar clothes!`,
+    };
+    await sgMail.send(msg);
+  } catch (error) {
+    console.error(error);
+
+    if (error.response) {
+      console.error(error.response.body);
+    }
   }
 }
