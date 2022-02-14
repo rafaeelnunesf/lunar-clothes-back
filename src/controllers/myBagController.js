@@ -70,7 +70,6 @@ export async function updateQuantityProduct(req, res) {
   const { userId } = res.locals;
   const qtd = req.body;
 
-  console.log(qtd);
   if (!qtd) {
     return res.sendStatus(422);
   }
