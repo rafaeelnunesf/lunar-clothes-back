@@ -3,6 +3,7 @@ import {
   deleteMyBag,
   getMyBag,
   postMyBag,
+  updateQuantityProduct,
   deleteManyMyBag,
   sendEmail,
 } from "../controllers/myBagController.js";
@@ -16,5 +17,6 @@ myBagRouter.get("/mybag", getMyBag);
 myBagRouter.delete("/mybag/:id", deleteMyBag);
 myBagRouter.delete("/delete/checkout", deleteManyMyBag);
 myBagRouter.get("/checkout", sendEmail);
+myBagRouter.put("/mybag/:id", updateQuantityProduct);
 
 export default myBagRouter;
