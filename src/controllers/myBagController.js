@@ -16,6 +16,7 @@ export async function postMyBag(req, res) {
         size,
         productId: new ObjectId(id),
         _id: new ObjectId(),
+        quantity: 1,
         userId: userId,
       });
 
@@ -63,6 +64,32 @@ export async function deleteMyBag(req, res) {
     res.sendStatus(500);
   }
 }
+
+export async function updateQuantityProduct(req, res) {
+  const { id } = req.params;
+  const { userId } = res.locals;
+  const qtd = req.body;
+
+  if (!qtd) {
+    return res.sendStatus(422);
+  }
+
+  try {
+    const productInBag = await db
+      .collection("mybag")
+      .findOne({ _id: new ObjectId(id), userId });
+
+    if (productInBag) {
+      await db
+        .collection("mybag")
+        .updateOne({ _id: new ObjectId(id) }, { $set: qtd });
+    }
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
+}
+
 export async function deleteManyMyBag(req, res) {
   const { userId } = res.locals;
   try {
@@ -76,6 +103,6 @@ export async function deleteManyMyBag(req, res) {
     }
   } catch (err) {
     console.log(err);
-    res.sendStatus(201);
+    res.sendStatus(500);
   }
 }
