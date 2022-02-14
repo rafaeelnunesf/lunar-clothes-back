@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { getProducts, getSizes } from "../controllers/catalogController.js";
-import tokenValidationMiddleware from "../middlewares/tokenValidationMiddleware.js";
 
 const catalogRouter = Router();
 
