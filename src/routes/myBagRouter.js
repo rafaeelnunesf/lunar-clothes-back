@@ -13,6 +13,6 @@ myBagRouter.use(tokenValidationMiddleware);
 myBagRouter.post("/mybag", postMyBag);
 myBagRouter.get("/mybag", getMyBag);
 myBagRouter.delete("/mybag/:id", deleteMyBag);
-myBagRouter.delete("/mybag/delete", deleteManyMyBag);
+myBagRouter.delete("/delete/checkout", deleteManyMyBag);
 
 export default myBagRouter;
