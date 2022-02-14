@@ -63,3 +63,19 @@ export async function deleteMyBag(req, res) {
     res.sendStatus(500);
   }
 }
+export async function deleteManyMyBag(req, res) {
+  const { userId } = res.locals;
+  try {
+    const userBag = await db.collection("mybag").find({ userId }).toArray();
+
+    if (userBag.length !== 0) {
+      await db.collection("mybag").deleteMany({ userId });
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(201);
+  }
+}
